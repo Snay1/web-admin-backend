@@ -14,31 +14,21 @@ model OzonKeys {
 }
 
 model WbKeys {
-  id       Int    @id @default(autoincrement())
-  headerApiKey   String
+  id           Int    @id @default(autoincrement())
+  headerApiKey String
 }
 
-// model OzonProduct {
-//   id             Int          @id @default(autoincrement())
-//   stocks Int
-//   price Int
-//   productId Int
-//   offerId Int
-// }
+model AvitoKeys {
+  id            Int    @id @default(autoincrement())
+  client_id     String
+  client_secret String
+}
 
-// model WbProduct {
-//   id             Int          @id @default(autoincrement())
-//   stocks Int
-//   price Int
-//   productId Int
-//   offerId Int
-// }
-
-// model WbWahrehouses {
-//   id       Int    @id @default(autoincrement())
-//   apiKey   String
-//   clientId String
-// }
+model YandexMarketKeys {
+  id            Int    @id @default(autoincrement())
+  client_id     String
+  client_secret String
+}
 
 model User {
   id    Int    @id @default(autoincrement())

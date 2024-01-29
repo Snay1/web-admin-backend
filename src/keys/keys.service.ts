@@ -32,11 +32,11 @@ export class KeysService {
         const validationHandler = () => {
             const errors = [];
 
-            if (!apiKey) {
+            if (!apiKey && typeof apiKey !== "string") {
                 errors.push("Ozon: ApiKey is required");
             }
 
-            if (!clientId) {
+            if (!clientId && typeof clientId !== "string") {
                 errors.push("Ozon: ClientId is required");
             }
 
@@ -60,7 +60,10 @@ export class KeysService {
                 },
             });
 
-            return { result };
+            return {
+                apiKey: result.apiKey,
+                clientId: result.clientId,
+            };
         }
 
         const validationRes = validationHandler();
@@ -82,7 +85,10 @@ export class KeysService {
             },
         });
 
-        return { result };
+        return {
+            apiKey: result.apiKey,
+            clientId: result.clientId,
+        };
     }
 
     async getWbKeys() {
@@ -105,7 +111,7 @@ export class KeysService {
         const validationHandler = () => {
             const errors = [];
 
-            if (!headerApiKey) {
+            if (!headerApiKey && typeof headerApiKey !== "string") {
                 errors.push("Wildberries: HeaderApiKey is required");
             }
 
@@ -128,7 +134,9 @@ export class KeysService {
                 },
             });
 
-            return { result };
+            return {
+                headerApiKey: result.headerApiKey,
+            };
         }
 
         const validationRes = validationHandler();
@@ -149,7 +157,9 @@ export class KeysService {
             },
         });
 
-        return { result };
+        return {
+            headerApiKey: result.headerApiKey,
+        };
     }
 
     async getAvitoKeys() {
@@ -176,11 +186,11 @@ export class KeysService {
         const validationHandler = () => {
             const errors = [];
 
-            if (!client_id) {
+            if (!client_id && typeof client_id !== "string") {
                 errors.push("Avito: client_id is required");
             }
 
-            if (!client_secret) {
+            if (!client_secret && typeof client_secret !== "string") {
                 errors.push("Avito: client_secret is required");
             }
 
@@ -204,7 +214,10 @@ export class KeysService {
                 },
             });
 
-            return { result };
+            return {
+                client_id: result.client_id,
+                client_secret: result.client_secret,
+            };
         }
 
         const validationRes = validationHandler();
@@ -226,7 +239,10 @@ export class KeysService {
             },
         });
 
-        return { result };
+        return {
+            client_id: result.client_id,
+            client_secret: result.client_secret,
+        };
     }
 
     async getYandexMarketKeys() {
@@ -254,11 +270,11 @@ export class KeysService {
         const validationHandler = () => {
             const errors = [];
 
-            if (!client_id) {
+            if (!client_id && typeof client_id !== "string") {
                 errors.push("Yandex Market: client_id is required");
             }
 
-            if (!client_secret) {
+            if (!client_secret && typeof client_secret !== "string") {
                 errors.push("Yandex Market: client_secret is required");
             }
 
@@ -282,7 +298,10 @@ export class KeysService {
                 },
             });
 
-            return { result };
+            return {
+                client_id: result.client_id,
+                client_secret: result.client_secret,
+            };
         }
 
         const validationRes = validationHandler();
@@ -304,6 +323,9 @@ export class KeysService {
             },
         });
 
-        return { result };
+        return {
+            client_id: result.client_id,
+            client_secret: result.client_secret,
+        };
     }
 }

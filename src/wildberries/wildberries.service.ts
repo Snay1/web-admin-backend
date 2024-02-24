@@ -78,11 +78,16 @@ export class WildberriesService {
             }/images/big/1.webp`;
 
             return {
-                ...item,
-                image,
+                success: true,
+                message: "Success!",
+                result: {
+                    ...item,
+                    image,
+                },
             };
         } catch (error) {
             return {
+                result: null,
                 success: false,
                 message: "Cannot parse wb item",
             };

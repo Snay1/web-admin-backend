@@ -1,8 +1,12 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import axios from "axios";
+import { PrismaService } from "src/prisma.service";
+import { CreateBarcodeDto } from "./dto";
 
 @Injectable()
 export class WildberriesService {
+    constructor(private prismaService: PrismaService) {}
+
     async fetchById(id: number) {
         try {
             const res = await axios.get(
@@ -91,6 +95,89 @@ export class WildberriesService {
                 success: false,
                 message: "Cannot parse wb item",
             };
+        }
+    }
+
+    async getBarcodes() {
+        try {
+            const barcodes = await this.prismaService.wbBarcodes.findMany();
+
+            return {
+                success: true,
+                message: "Баркоды получены",
+                result: barcodes,
+            };
+        } catch (error) {
+            throw new BadRequestException({
+                success: false,
+                message: "Не удалось получить баркоды",
+                result: null,
+            });
+        }
+    }
+    async createUpdateBarcode({ nmID, items }: CreateBarcodeDto) {
+        const barcodes = await this.prismaService.wbBarcodes.findMany();
+
+        for (let i = 0; i < barcodes.length; i++) {
+            const item = barcodes[i];
+
+            if (item.nmID === nmID) {
+                const updatedBarcode =
+                    await this.prismaService.wbBarcodes.update({
+                        where: {
+                            id: item.id,
+                        },
+                        data: {
+                            items,
+                        },
+                    });
+
+                return {
+                    success: true,
+                    result: updatedBarcode,
+                    message: "Баркоды обновлены",
+                };
+            }
+        }
+
+        const newBarcode = await this.prismaService.wbBarcodes.create({
+            data: {
+                nmID,
+                items,
+            },
+        });
+
+        return {
+            success: true,
+            result: newBarcode,
+            message: "Баркоды созданы",
+        };
+    }
+    async deleteBarcode(id: number) {
+        try {
+            const item = await this.prismaService.wbBarcodes.delete({
+                where: {
+                    nmID: Number(id),
+                },
+            });
+
+            console.log(item);
+
+            if (!item) {
+                throw Error();
+            }
+
+            return {
+                success: true,
+                message: "Баркоды удалены",
+                data: null,
+            };
+        } catch (error) {
+            throw new BadRequestException({
+                success: false,
+                message: "Не удалось удалить баркоды",
+                data: null,
+            });
         }
     }
 }

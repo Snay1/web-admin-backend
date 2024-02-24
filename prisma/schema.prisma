@@ -18,6 +18,12 @@ model WbKeys {
   headerApiKey String
 }
 
+model WbBarcodes {
+  id    Int      @id @default(autoincrement())
+  nmID  Int      @unique
+  items String[]
+}
+
 model AvitoKeys {
   id            Int    @id @default(autoincrement())
   client_id     String

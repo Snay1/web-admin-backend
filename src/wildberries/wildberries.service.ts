@@ -170,13 +170,13 @@ export class WildberriesService {
             return {
                 success: true,
                 message: "Баркоды удалены",
-                data: null,
+                result: null,
             };
         } catch (error) {
             throw new BadRequestException({
                 success: false,
                 message: "Не удалось удалить баркоды",
-                data: null,
+                result: null,
             });
         }
     }

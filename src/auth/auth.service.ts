@@ -70,10 +70,19 @@ export class AuthService {
 
         return { accessToken };
     }
-    async getSessionInfo({ id, email }: GetSessionInfoDto) {
+    async getSessionInfo({ id, email, iat, exp }: GetSessionInfoDto) {
+        const user = await this.usersService.findByEmail({ email });
+
+        if (!user) {
+            throw new BadRequestException();
+        }
+
         return {
             id,
+            iat,
+            exp,
             email,
+            hasAccess: user.hasAccess,
         };
     }
 }

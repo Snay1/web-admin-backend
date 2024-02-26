@@ -59,7 +59,8 @@ export class AuthController {
         type: GetSessionInfoDto,
     })
     @UseGuards(AuthGuard)
-    getSessionInfo(@SessionInfo() session: GetSessionInfoDto) {
-        return session;
+    async getSessionInfo(@SessionInfo() session: GetSessionInfoDto) {
+        const sessionInfo = await this.authService.getSessionInfo(session);
+        return sessionInfo;
     }
 }

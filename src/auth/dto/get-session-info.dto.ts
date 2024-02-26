@@ -1,4 +1,4 @@
-import { IsInt, IsString } from "class-validator";
+import { IsBoolean, IsInt, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 class GetSessionInfoDto {
@@ -17,6 +17,9 @@ class GetSessionInfoDto {
 
     @IsInt()
     exp: number;
+
+    @IsBoolean()
+    hasAccess: boolean;
 }
 
 export default GetSessionInfoDto;

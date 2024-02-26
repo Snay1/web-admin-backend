@@ -16,6 +16,7 @@ export class UsersService {
                 email,
                 hash,
                 salt,
+                hasAccess: false,
             },
         });
     }

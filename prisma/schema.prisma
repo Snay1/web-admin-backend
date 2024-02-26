@@ -42,8 +42,9 @@ model YandexMarketKeys {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  hash  String
-  salt  String
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  hash      String
+  salt      String
+  hasAccess Boolean
 }

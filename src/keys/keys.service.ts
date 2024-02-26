@@ -15,6 +15,13 @@ export class KeysService {
     async getOzonKeys(sessionInfo: GetSessionInfoDto) {
         const userData = await sessionInfo;
 
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
+
         const keys = await this.prismaService.ozonKeys.findMany({
             where: {
                 userId: userData.id,
@@ -38,6 +45,13 @@ export class KeysService {
         sessionInfo: GetSessionInfoDto,
     ) {
         const userData = await sessionInfo;
+
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
 
         const ozonKeys = await this.prismaService.ozonKeys.findMany({
             where: {
@@ -111,6 +125,13 @@ export class KeysService {
     async getWbKeys(sessionInfo: GetSessionInfoDto) {
         const userData = await sessionInfo;
 
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
+
         const keys = await this.prismaService.wbKeys.findMany({
             where: {
                 userId: userData.id,
@@ -133,6 +154,13 @@ export class KeysService {
         sessionInfo: GetSessionInfoDto,
     ) {
         const userData = await sessionInfo;
+
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
 
         const wbKeys = await this.prismaService.wbKeys.findMany({
             where: {
@@ -198,6 +226,13 @@ export class KeysService {
     async getAvitoKeys(sessionInfo: GetSessionInfoDto) {
         const userData = await sessionInfo;
 
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
+
         const keys = await this.prismaService.avitoKeys.findMany({
             where: {
                 userId: userData.id,
@@ -221,6 +256,13 @@ export class KeysService {
         sessionInfo: GetSessionInfoDto,
     ) {
         const userData = await sessionInfo;
+
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
 
         const avitoKeys = await this.prismaService.avitoKeys.findMany({
             where: {
@@ -294,6 +336,13 @@ export class KeysService {
     async getYandexMarketKeys(sessionInfo: GetSessionInfoDto) {
         const userData = await sessionInfo;
 
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
+
         const keys = await this.prismaService.yandexMarketKeys.findMany({
             where: {
                 userId: userData.id,
@@ -317,6 +366,13 @@ export class KeysService {
         sessionInfo: GetSessionInfoDto,
     ) {
         const userData = await sessionInfo;
+
+        if (!userData.hasAccess) {
+            throw new BadRequestException({
+                success: false,
+                message: "Нет доступа",
+            });
+        }
 
         const yandexMarket = await this.prismaService.yandexMarketKeys.findMany(
             {

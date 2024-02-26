@@ -9,29 +9,34 @@ datasource db {
 
 model OzonKeys {
   id       Int    @id @default(autoincrement())
+  userId   Int
   apiKey   String
   clientId String
 }
 
 model WbKeys {
   id           Int    @id @default(autoincrement())
+  userId       Int
   headerApiKey String
 }
 
 model WbBarcodes {
-  id    Int      @id @default(autoincrement())
-  nmID  Int      @unique
-  items String[]
+  id     Int      @id @default(autoincrement())
+  userId Int
+  nmID   Int      @unique
+  items  String[]
 }
 
 model AvitoKeys {
   id            Int    @id @default(autoincrement())
+  userId        Int
   client_id     String
   client_secret String
 }
 
 model YandexMarketKeys {
   id            Int    @id @default(autoincrement())
+  userId        Int
   client_id     String
   client_secret String
 }

@@ -21,8 +21,16 @@ export class AuthService {
     async signUp({ email, password }: SignUpDto) {
         const users = await this.prismaService.user.findMany();
 
-        if (users.length) {
-            throw new BadRequestException({ type: "admin-exists" });
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
+
+            if (user.email === email) {
+                throw new BadRequestException({
+                    success: false,
+                    data: null,
+                    message: "Пользователь с таким логином уже существует",
+                });
+            }
         }
 
         const salt = this.passwordService.getSalt();

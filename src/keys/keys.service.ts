@@ -6,13 +6,20 @@ import {
     CreateUpdateYandexMarketKeysDto,
 } from "./dto";
 import { PrismaService } from "src/prisma.service";
+import { GetSessionInfoDto } from "src/auth/dto";
 
 @Injectable()
 export class KeysService {
     constructor(private prismaService: PrismaService) {}
 
-    async getOzonKeys() {
-        const keys = await this.prismaService.ozonKeys.findMany();
+    async getOzonKeys(sessionInfo: GetSessionInfoDto) {
+        const userData = await sessionInfo;
+
+        const keys = await this.prismaService.ozonKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         if (!keys.length) {
             return {};
@@ -26,8 +33,17 @@ export class KeysService {
         };
     }
 
-    async createUpdateOzonKeys({ apiKey, clientId }: CreateUpdateOzonKeysDto) {
-        const ozonKeys = await this.prismaService.ozonKeys.findMany();
+    async createUpdateOzonKeys(
+        { apiKey, clientId }: CreateUpdateOzonKeysDto,
+        sessionInfo: GetSessionInfoDto,
+    ) {
+        const userData = await sessionInfo;
+
+        const ozonKeys = await this.prismaService.ozonKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         const validationHandler = () => {
             const errors = [];
@@ -55,6 +71,7 @@ export class KeysService {
 
             const result = await this.prismaService.ozonKeys.create({
                 data: {
+                    userId: userData.id,
                     apiKey,
                     clientId,
                 },
@@ -91,8 +108,14 @@ export class KeysService {
         };
     }
 
-    async getWbKeys() {
-        const keys = await this.prismaService.wbKeys.findMany();
+    async getWbKeys(sessionInfo: GetSessionInfoDto) {
+        const userData = await sessionInfo;
+
+        const keys = await this.prismaService.wbKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         if (!keys.length) {
             return {};
@@ -105,8 +128,17 @@ export class KeysService {
         };
     }
 
-    async createUpdateWbKeys({ headerApiKey }: CreateUpdateWbKeysDto) {
-        const wbKeys = await this.prismaService.wbKeys.findMany();
+    async createUpdateWbKeys(
+        { headerApiKey }: CreateUpdateWbKeysDto,
+        sessionInfo: GetSessionInfoDto,
+    ) {
+        const userData = await sessionInfo;
+
+        const wbKeys = await this.prismaService.wbKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         const validationHandler = () => {
             const errors = [];
@@ -130,6 +162,7 @@ export class KeysService {
 
             const result = await this.prismaService.wbKeys.create({
                 data: {
+                    userId: userData.id,
                     headerApiKey,
                 },
             });
@@ -162,8 +195,14 @@ export class KeysService {
         };
     }
 
-    async getAvitoKeys() {
-        const keys = await this.prismaService.avitoKeys.findMany();
+    async getAvitoKeys(sessionInfo: GetSessionInfoDto) {
+        const userData = await sessionInfo;
+
+        const keys = await this.prismaService.avitoKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         if (!keys.length) {
             return {};
@@ -177,11 +216,17 @@ export class KeysService {
         };
     }
 
-    async createUpdateAvitoKeys({
-        client_id,
-        client_secret,
-    }: CreateUpdateAvitoKeysDto) {
-        const avitoKeys = await this.prismaService.avitoKeys.findMany();
+    async createUpdateAvitoKeys(
+        { client_id, client_secret }: CreateUpdateAvitoKeysDto,
+        sessionInfo: GetSessionInfoDto,
+    ) {
+        const userData = await sessionInfo;
+
+        const avitoKeys = await this.prismaService.avitoKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         const validationHandler = () => {
             const errors = [];
@@ -209,6 +254,7 @@ export class KeysService {
 
             const result = await this.prismaService.avitoKeys.create({
                 data: {
+                    userId: userData.id,
                     client_id,
                     client_secret,
                 },
@@ -245,8 +291,14 @@ export class KeysService {
         };
     }
 
-    async getYandexMarketKeys() {
-        const keys = await this.prismaService.yandexMarketKeys.findMany();
+    async getYandexMarketKeys(sessionInfo: GetSessionInfoDto) {
+        const userData = await sessionInfo;
+
+        const keys = await this.prismaService.yandexMarketKeys.findMany({
+            where: {
+                userId: userData.id,
+            },
+        });
 
         if (!keys.length) {
             return {};
@@ -260,12 +312,19 @@ export class KeysService {
         };
     }
 
-    async createUpdateYandexMarketKeys({
-        client_id,
-        client_secret,
-    }: CreateUpdateYandexMarketKeysDto) {
-        const yandexMarket =
-            await this.prismaService.yandexMarketKeys.findMany();
+    async createUpdateYandexMarketKeys(
+        { client_id, client_secret }: CreateUpdateYandexMarketKeysDto,
+        sessionInfo: GetSessionInfoDto,
+    ) {
+        const userData = await sessionInfo;
+
+        const yandexMarket = await this.prismaService.yandexMarketKeys.findMany(
+            {
+                where: {
+                    userId: userData.id,
+                },
+            },
+        );
 
         const validationHandler = () => {
             const errors = [];
@@ -293,6 +352,7 @@ export class KeysService {
 
             const result = await this.prismaService.yandexMarketKeys.create({
                 data: {
+                    userId: userData.id,
                     client_id,
                     client_secret,
                 },

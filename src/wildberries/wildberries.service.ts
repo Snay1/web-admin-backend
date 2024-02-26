@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import axios from "axios";
 import { PrismaService } from "src/prisma.service";
 import { CreateBarcodeDto } from "./dto";
+import { GetSessionInfoDto } from "src/auth/dto";
 
 @Injectable()
 export class WildberriesService {
@@ -98,9 +99,13 @@ export class WildberriesService {
         }
     }
 
-    async getBarcodes() {
+    async getBarcodes(sessionInfo: GetSessionInfoDto) {
         try {
-            const barcodes = await this.prismaService.wbBarcodes.findMany();
+            const barcodes = await this.prismaService.wbBarcodes.findMany({
+                where: {
+                    userId: sessionInfo.id,
+                },
+            });
 
             return {
                 success: true,
@@ -115,8 +120,15 @@ export class WildberriesService {
             });
         }
     }
-    async createUpdateBarcode({ nmID, items }: CreateBarcodeDto) {
-        const barcodes = await this.prismaService.wbBarcodes.findMany();
+    async createUpdateBarcode(
+        { nmID, items }: CreateBarcodeDto,
+        sessionInfo: GetSessionInfoDto,
+    ) {
+        const barcodes = await this.prismaService.wbBarcodes.findMany({
+            where: {
+                userId: sessionInfo.id,
+            },
+        });
 
         for (let i = 0; i < barcodes.length; i++) {
             const item = barcodes[i];
@@ -142,6 +154,7 @@ export class WildberriesService {
 
         const newBarcode = await this.prismaService.wbBarcodes.create({
             data: {
+                userId: 1,
                 nmID,
                 items,
             },
@@ -153,15 +166,14 @@ export class WildberriesService {
             message: "Баркоды созданы",
         };
     }
-    async deleteBarcode(id: number) {
+    async deleteBarcode(id: number, sessionInfo: GetSessionInfoDto) {
         try {
             const item = await this.prismaService.wbBarcodes.delete({
                 where: {
                     nmID: Number(id),
+                    userId: sessionInfo.id,
                 },
             });
-
-            console.log(item);
 
             if (!item) {
                 throw Error();

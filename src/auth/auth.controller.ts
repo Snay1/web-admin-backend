@@ -10,12 +10,16 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { SignUpDto, SignInDto, GetSessionInfoDto } from "./dto";
-import { ApiCreatedResponse, ApiOkResponse } from "@nestjs/swagger";
+import { ApiCreatedResponse, ApiHeader, ApiOkResponse } from "@nestjs/swagger";
 import { Response } from "express";
 import { CookieService } from "./cookie.service";
 import { AuthGuard } from "./auth.guard";
 import { SessionInfo } from "./session-info.decorator";
 
+@ApiHeader({
+    name: "Access-Control-Allow-Origin",
+    description: "https://marketplace-helper.ru",
+})
 @Controller("auth")
 export class AuthController {
     constructor(
@@ -59,7 +63,11 @@ export class AuthController {
         type: GetSessionInfoDto,
     })
     @UseGuards(AuthGuard)
-    async getSessionInfo(@SessionInfo() session: GetSessionInfoDto) {
+    async getSessionInfo(
+        @Res({ passthrough: true }) res: Response,
+        @SessionInfo() session: GetSessionInfoDto,
+    ) {
+        console.log(res);
         const sessionInfo = await this.authService.getSessionInfo(session);
         return sessionInfo;
     }

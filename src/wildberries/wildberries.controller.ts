@@ -5,6 +5,7 @@ import {
     Get,
     Param,
     Post,
+    Res,
     Session,
     UseGuards,
 } from "@nestjs/common";
@@ -12,7 +13,12 @@ import { WildberriesService } from "./wildberries.service";
 import { CreateBarcodeDto } from "./dto";
 import { AuthGuard } from "src/auth/auth.guard";
 import { GetSessionInfoDto } from "src/auth/dto";
+import { ApiHeader } from "@nestjs/swagger";
 
+@ApiHeader({
+    name: "Access-Control-Allow-Origin",
+    description: "https://marketplace-helper.ru",
+})
 @Controller("wildberries")
 export class WildberriesController {
     constructor(private readonly wildberriesService: WildberriesService) {}
@@ -24,13 +30,17 @@ export class WildberriesController {
 
     @Get("/barcodes")
     @UseGuards(AuthGuard)
-    getBarcodes(@Session() sessionInfo: GetSessionInfoDto) {
+    getBarcodes(
+        @Res({ passthrough: true }) res,
+        @Session() sessionInfo: GetSessionInfoDto,
+    ) {
         return this.wildberriesService.getBarcodes(sessionInfo);
     }
 
     @Post("/barcodes/create-update")
     @UseGuards(AuthGuard)
     createBarcode(
+        @Res({ passthrough: true }) res,
         @Body() dto: CreateBarcodeDto,
         @Session() sessionInfo: GetSessionInfoDto,
     ) {
@@ -40,6 +50,7 @@ export class WildberriesController {
     @Delete("/barcodes/delete/:id")
     @UseGuards(AuthGuard)
     deleteBarcode(
+        @Res({ passthrough: true }) res,
         @Param() { id }: { id: number },
         @Session() sessionInfo: GetSessionInfoDto,
     ) {

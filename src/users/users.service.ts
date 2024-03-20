@@ -20,4 +20,18 @@ export class UsersService {
             },
         });
     }
+
+    async getActiveUsers() {
+        const activeUsers = await this.prismaService.user.count({
+            where: {
+                hasAccess: true,
+            },
+        });
+
+        return {
+            success: true,
+            message: "Активные пользователи получены",
+            result: activeUsers,
+        };
+    }
 }

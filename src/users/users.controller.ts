@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Res } from "@nestjs/common";
 import { ApiHeader } from "@nestjs/swagger";
 import { UsersService } from "./users.service";
 
@@ -11,7 +11,8 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get("/active-accounts")
-    getActiveUsers() {
+    getActiveUsers(@Res({ passthrough: true }) res) {
+        console.log(res);
         return this.usersService.getActiveUsers();
     }
 }

@@ -32,7 +32,6 @@ export class KeysController {
         @Res({ passthrough: true }) res,
         @Session() sessionInfo: GetSessionInfoDto,
     ) {
-        console.log(res);
         return this.keysService.getOzonKeys(sessionInfo);
     }
 

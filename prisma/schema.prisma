@@ -42,9 +42,17 @@ model YandexMarketKeys {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  hash      String
-  salt      String
-  hasAccess Boolean
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  hash         String
+  salt         String
+  hasAccess    Boolean
+  PaymentOrder PaymentOrder?
+}
+
+model PaymentOrder {
+  id        Int    @id @default(autoincrement())
+  userEmail String @unique
+  orderId   String
+  user      User   @relation(fields: [userEmail], references: [email])
 }

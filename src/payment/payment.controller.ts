@@ -1,4 +1,12 @@
-import { Controller, Post, Res, Session, UseGuards } from "@nestjs/common";
+import {
+    Controller,
+    Get,
+    Param,
+    Post,
+    Res,
+    Session,
+    UseGuards,
+} from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { GetSessionInfoDto } from "src/auth/dto";
@@ -14,5 +22,10 @@ export class PaymentController {
         @Session() sessionInfo: GetSessionInfoDto,
     ) {
         return this.paymentService.pay(sessionInfo);
+    }
+
+    @Get("/pay/check/:id")
+    payCheck(@Param() { id }: { id: string }) {
+        return this.paymentService.payCheck(id);
     }
 }
